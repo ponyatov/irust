@@ -13,6 +13,6 @@ You won’t find much dogma in this book. I’ll do my best to present the patte
 
 ## 1.1 [[What this book covers|О чём эта книга]]
 ## 1.2 [[What design patterns are|Что такое шаблоны проектирования]]
-## 1.3 [[Why this book is different]]
+## 1.3 [[Why this book is different|Почему эта книга отличается]]
 ## 1.4 [[Tools youll need]]
 ## Summary

@@ -1,5 +1,7 @@
 # 1.3 Why this book is different
+## Почему эта книга отличается
 
-In this book, however, I present some ideas that are specific to Rust. 
+Во многих книгах по программированию рассматриваются общие принципы разработки, которые можно применить практически к любому языку. В этой же книге я сосредотачиваюсь на идеях, специфичных именно для Rust. Уникальные особенности языка требуют особого подхода к проектированию API и написанию качественного кода.
 
-Rust’s unique language features require a little more thought when it comes to API design and the act of building high-quality code. In particular, we have to think harder about how we manage memory and object [[Rust/lifetime|lifetime]]s, pass values between contexts, avoid [[race condition]]s, and ensure that our APIs are ergonomic.
+## [[Уникальность Rust]]
+## [[Чему не учат в официальной Rust Book]]

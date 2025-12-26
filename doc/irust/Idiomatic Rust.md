@@ -14,7 +14,7 @@ ISBN: 9781633437463
 
 ![[irust/bib]]
 
-### [[irust/Preface]]
+### [[irust/Preface|Предисловие]]
 ### [[irust/Acknowledgments]]
 ### [[irust/about this book]]
 ### [[Brenden Matthews|about the author]]

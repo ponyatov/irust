@@ -2,6 +2,7 @@
 doc:
 	rsync -r $(HOME)/metadoc/$(APP)/ doc/$(APP)/
 	rsync -r $(HOME)/metadoc/copro/ doc/copro/
+	rsync -r $(HOME)/metadoc/trb/ doc/trb/
 	git add $@
 
 .PHONY: doxy
