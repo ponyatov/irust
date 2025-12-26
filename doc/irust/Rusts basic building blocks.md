@@ -1,4 +1,5 @@
 # 2. Rust’s basic building blocks
+## Базовые строительные блоки Rust
 
 - Exploring the core Rust patterns
 - Diving into Rust generics
