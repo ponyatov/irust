@@ -1,0 +1,62 @@
+Sys.command("ln -fs ../rc rc")
+Sys.command("ln -fs ../em/legas legas")
+Sys.command("cp legas/.ocaml* ./")
+Sys.command("mkdir lib")
+Sys.command("cp ~/em/legas/legas.ml lib/legas.ml")
+Sys.command("code lib/legas.ml")
+
+let app = Sys.getcwd () |> String.split_on_char '/' |> List.rev |> List.hd
+let title = "Idiomatic Rust: Code Like a Rustacean"
+let about = "
+1. [[Building Blocks]]
+2. [[Core Patterns]]
+3. [[Advanced Patterns]]
+4. [[Problem Avoidance]]
+"
+let user = "dponyatov"
+let author = "Brenden Matthews"
+let email = "github@brenden.brndn.io"
+let year = 2025
+let version = "0.0.1"
+let license = "MIT"
+let github = "github: https://github.com/ponyatov/" ^ app
+let github = "github: https://gitflic.ru/project/"^user^"/" ^ app
+
+#use "legas/git.ml"
+git();
+
+#use "legas/files.ml"
+files();;
+
+#use "legas/vscode.ml"
+vscode();;
+
+#use "legas/ocaml.ml"
+ocamldots();
+
+#use "legas/doc.ml"
+doc();
+
+#use "legas/mk.ml"
+mk();
+
+#use "legas/cpp.ml"
+cpp();
+
+#use "legas/cli.ml"
+cli();
+
+#use "legas/vm.ml"
+vm();
+
+#use "legas/cmake.ml"
+cmake();
+
+#use "legas/rust.ml"
+rust();
+
+#use "legas/js.ml"
+js();
+
+#use "legas/sync.ml"
+sync();
