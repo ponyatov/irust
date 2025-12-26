@@ -20,7 +20,7 @@ let year = 2025
 let version = "0.0.1"
 let license = "MIT"
 let github = "github: https://github.com/ponyatov/" ^ app
-let github = "github: https://gitflic.ru/project/"^user^"/" ^ app
+(* let github = "github: https://gitflic.ru/project/"^user^"/" ^ app *)
 
 #use "legas/git.ml"
 git();
@@ -33,6 +33,7 @@ vscode();;
 
 #use "legas/ocaml.ml"
 ocamldots();
+(* dune() *)
 
 #use "legas/doc.ml"
 doc();
@@ -40,23 +41,7 @@ doc();
 #use "legas/mk.ml"
 mk();
 
-#use "legas/cpp.ml"
-cpp();
-
-#use "legas/cli.ml"
-cli();
-
-#use "legas/vm.ml"
-vm();
-
-#use "legas/cmake.ml"
-cmake();
-
 #use "legas/rust.ml"
 rust();
 
-#use "legas/js.ml"
-js();
-
-#use "legas/sync.ml"
-sync();
+(* #use "legas/sync.ml" *)

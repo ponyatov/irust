@@ -1,0 +1,15 @@
+[package]
+name            =  "irust"
+version         =  "0.0.1"
+description     =  "Idiomatic Rust: Code Like a Rustacean"
+authors         = ["Brenden Matthews <github@brenden.brndn.io>"]
+license         =  "MIT"
+repository      =  "github: https://gitflic.ru/project/dponyatov/irust"
+edition         =  "2024"
+
+[dependencies]
+const_format    = "0.2"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+libc            = "0.2"
+memmap2         = "0.9"
