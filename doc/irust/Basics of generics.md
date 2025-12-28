@@ -1,6 +1,7 @@
 # 2.1.3 Basics of generics
+## Основы дженериков
 
-
+Рассмотрим базовый синтаксис дженериков на примере структуры. Простая структура с одним обобщённым полем выглядит следующим образом:
 
 ```Rust
 struct Container<T> {
@@ -8,52 +9,92 @@ struct Container<T> {
 }
 ```
 
-Here, we have a basic container that holds a value of type T, which is defined as a generic parameter in angle brackets. 
+- `Container` — имя структуры
+- `<T>` — объявление параметра-дженерика (тип-заполнитель)
+- `value: T` — поле структуры типа `T`
 
-When you see the angle brackets (< … >), you know you’re working with generics
+Параметр `T` (название может быть любым, но традиционно начинается с заглавной буквы) действует как **заполнитель типа**, который будет заменён конкретным типом при создании экземпляра структуры.
 
-Creating an instance of a generic struct is relatively easy. Often, the compiler can infer the type parameter automatically:
+> When you see the angle brackets (< … >), you know you’re working with generics
 
-![[Pasted image 20250520060302.png]]
+Создание экземпляра обобщённой структуры обычно простое — компилятор часто может автоматически вывести тип параметра:
 
-Sometimes, the compiler needs hints to determine the generic type. Suppose we want to store an `Option<String>` in our container but initialize it with None. If we try the code
+```rust
+let container = Container { value: 42 }; // T выводится как i32
+let string_container = Container { value: "hello".to_string() }; // T = String
+```
+
+Этот контейнер имеет тип `Container<&str>`, но нам не нужно явно указывать обобщённый тип, потому что компилятор может вывести его самостоятельно. Этот код создаёт экземпляр `Container<&str>` с именем `str_container`. При выполнении кода выводится `Thought is free.`, как и ожидалось.
+
+Иногда компилятору требуются подсказки для определения обобщённого типа. Предположим, мы хотим сохранить `Option<String>` в нашем контейнере, но инициализировать его значением `None`. Если мы попробуем следующий код:
+
 ```Rust
 let ambiguous_container = Container { value: None };
 ```
-the compiler will fail with the following error:
+компилятор завершится ошибкой:
 ```
 error[E0282]: type annotations needed for `Container<Option<T>>`
+ --> src/main.rs:8:50
+  |
+8 | let ambiguous_container = Container { value: None };
+  | ------------------- ^^ cannot infer type for type parameter
+  |                    `T` declared on the enum `Option`
+  |
+  | consider giving `ambiguous_container` the explicit type
+  | `Container<Option<T>>`, where the type parameter `T`
+  | is specified
 ```
+
+К счастью, компилятор точно говорит нам, что нужно сделать. Мы можем обновить наш код следующим образом, чтобы дать компилятору понять, что мы хотим использовать `Option<String>`:
 
 ```Rust
 let ambiguous_container: Container<Option<String>> =
-	Container { value: None };
+    Container { value: None };
 ```
 
-![[new constructor]]
+Единственное отличие в том, что мы указываем целевой тип в левой части присваивания. Типы должны совпадать, чтобы компилятор мог понять, что мы имеем в виду.
 
-We can do some neat things with generics, such as constructing recursive structures with generics. As an example, we can create a structure that holds an instance of itself, such as a [[lang/linked list|linked list]] that includes a generic parameter:
+![[new constructor|паттерн конструктора new()]]
 
-![[Pasted image 20250520060926.png]]
+### Рекурсивные структуры
 
-We can implement the [[Rust/Clone#trait]] automatically by using the `#[derive]` attribute.
+Мы можем делать интересные вещи с дженериками, например, создавать рекурсивные структуры с дженериками. В качестве примера мы можем создать структуру, которая содержит экземпляр самой себя, такую как [[lang/linked list|связный список]], включающий обобщённый параметр.
+
+можем автоматически реализовать трейт `Clone`, используя атрибут `#[derive]`:
+
+```rust
+#[derive(Clone)]
+struct ListItem<T>
+where
+    T: Clone,
+{
+    data: Box<T>,
+    next: Option<Box<ListItem<T>>>,
+}
+```
 
 ![[Rust/where]]
 
-We can also use this pattern with enums. Consider this enum, which could be used to construct linked lists (albeit a useless form of them):
+Мы также можем использовать этот паттерн с перечислениями. Рассмотрим это перечисление, которое может использоваться для создания связных списков (хотя и в довольно бесполезной форме):
+
 ```Rust
 enum Recursive<T> {
-	Next(Box<Recursive<T>>),
-	Boxed(Box<T>),
-	Optional(Option<T>),
+    Next(Box<Recursive<T>>),
+    Boxed(Box<T>),
+    Optional(Option<T>),
 }
 ```
-Here, an enum called Recursive can hold 
-- a pointer to another Recursive, 
-- a boxed T, or an 
-- optional T.
 
-This example is fairly useless, but it shows what you can do with generics.
+Здесь перечисление `Recursive` может содержать 
+- указатель на другой `Recursive`, 
+- boxed `T` или 
+- optional `T`
+
+Этот пример довольно бесполезен, но он показывает, что можно делать с дженериками.
+
+**ПРИМЕЧАНИЕ**: Я использую пример со связным списком на протяжении всей книги для демонстрации различных функций Rust, и я буду развивать этот пример по мере продвижения. Если вы не знакомы со связными списками, односвязный список — это структура данных, состоящая из последовательности элементов, каждый из которых содержит ссылку на следующий элемент, например: A → B → C → … → Z.
+
+Мы могли бы применить этот паттерн к нашему связному списку, используя структуру, которая выглядит примерно так, вместо `Option`:
 
 ```Rust
 enum NextNode<T> {
@@ -67,4 +108,4 @@ struct ListNode<T> {
 }
 ```
 
-NOTE Implementing [[algo/linked list|linked list]]s in Rust properly is more complicated than I show in this chapter. I’ll revisit linked lists later in this book and demonstrate using [[Rust/Rc|Rc]] and [[RefCell]], which is a better way to construct linked lists. The preceding example wouldn’t be useful for most practical applications.
+**ПРИМЕЧАНИЕ**: Правильная реализация [[linked list|связных списков]] в Rust сложнее, чем я показываю в этой главе. Я вернусь к связным спискам позже в этой книге и продемонстрирую использование [[Rust/Rc|Rc]] и [[RefCell]], что является лучшим способом построения связных списков. Предыдущий пример не был бы полезен для большинства практических приложений.
